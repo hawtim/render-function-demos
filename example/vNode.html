@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <my-component>
+      <child></child>
+    </my-component>
+  </div>
+  <script>
+    Vue.component('myComponent', {
+      render: function (createElement) {
+        return createElement(
+          'div', {
+            class: {
+              'show': this.show
+            },
+            attrs: {
+              id: 'element',
+            },
+            on: {
+              click: this.handleClick
+            }
+          },
+          '文本内容')
+      },
+      data: function () {
+        return {
+          show: true
+        }
+      },
+      methods: {
+        handleClick: function () {
+          console.log('Clicked!')
+        }
+      }
+    })
+  </script>
+  <script>
+    Vue.component('child', {
+      render: function (createElement) {
+        return createElement('p', 'text')
+      }
+    })
+
+    Vue.component('myComponent', {
+      render: function (createElement) {
+        return createElement('div', [
+          this.$slots.default,
+          this.$slots.default
+        ])
+      }
+    })
+    Vue.component('myComponent', {
+      template: `<div id="element"
+          :class="{show: show}"
+          @click="handleClick">文本内容</div>`,
+      data: function () {
+        return {
+          show: true
+        }
+      },
+      methods: {
+        handleClick: function () {
+          console.log('Clicked!')
+        }
+      }
+    })
+    var app = new Vue({
+      el: '#app'
+    })
+
+  </script>
+</body>
+</html>
+
+
+<script type="text/javascript">
+  var vNode = {
+    tag: "div",
+    attributes: {
+      id: "main"
+    },
+    children: [{
+      tag: "p",
+      text: "文本内容"
+    }]
+  };
+  export default class VNode {
+    tag: string | void;
+    data: VNodeData | void;
+    children: ? Array < VNode > ;
+    text: string | void;
+    elm: Node | void;
+    ns: string | void;
+    context: Component | void; // rendered in this component's scope
+    key: string | number | void;
+    componentOptions: VNodeComponentOptions | void;
+    componentInstance: Component | void; // component instance
+    parent: VNode | void; // component placeholder node
+    // ...
+  }
+
+  declare interface VNodeData {
+    key ? : string | number;
+    slot ? : string;
+    ref ? : string;
+    pre ? : boolean;
+    tag ? : string;
+    staticClass ? : string;
+    class ? : any;
+    staticStyle ? : {
+      [key: string]: any
+    };
+    style ? : Array < Object > | Object;
+    normalizedStyle ? : Object;
+    props ? : {
+      [key: string]: any
+    };
+    attrs ? : {
+      [key: string]: string
+    };
+    domProps ? : {
+      [key: string]: any
+    };
+    hook ? : {
+      [key: string]: Function
+    };
+    on ? : ? {
+      [key: string]: Function | Array < Function >
+    };
+    nativeOn ? : {
+      [key: string]: Function | Array < Function >
+    };
+    transition ? : Object;
+    show ? : boolean; // marker for v-show
+    inlineTemplate ? : {
+      render: Function;
+      staticRenderFns: Array < Function > ;
+    };
+    directives ? : Array < VNodeDirective > ;
+    keepAlive ? : boolean;
+    scopedSlots ? : {
+      [key: string]: Function
+    };
+    model ? : {
+      value: any;
+      callback: Function;
+    };
+  }
+
+  createElement(
+    // {String | Object | Function}
+    // 一个 HTML 标签，组件选项，或一个函数
+    // 比如 return 上述其中一个
+    'div',
+    // {Object}
+    // 一个对应属性的数据对象，可选
+    // 你可以在 template 中使用
+    {
+      // 稍后介绍
+    },
+    // {String | Array}
+    // 子节点(VNodes)， 可选
+    [
+      createElement('h1', 'hello world!'),
+      createElement(MyComponent, {
+        props: {
+          someProp: 'foo'
+        }
+      }),
+      'bar'
+    ]
+  )
+
+
+
+
+  render: function (createElement) {
+    var myParagraphVNode = createElement('p', 'hi')
+    return createElement('div', [
+      myParagraphVNode, myParagraphVNode
+    ])
+  }
+
+  render: function (createElement) {
+    return createElement('div',
+      Array.apply(null, {
+        length: 20
+      }).map(function () {
+        return createElement('p', 'hi')
+      })
+    )
+  }
+
+
+  Vue.component('my-component', {
+    render: function (createElement) {
+      function cloneVNode(vnode) {
+        const clonedChildren = vnode.children &&
+          vnode.children.map(function (vnode) {
+            return cloneVNode(vnode)
+          })
+        const cloned = createElement(
+          vnode.tag,
+          vnode.data,
+          clonedChildren
+        )
+        cloned.text = vnode.text
+        cloned.isComment = vnode.isComment
+        cloned.componentOptions = vnode.componentOptions
+        cloned.elm = vnode.elm
+        cloned.context = vnode.context
+        cloned.ns = vnode.ns
+        cloned.isStatic = vnode.isStatic
+        cloned.key = vnode.key
+        return cloned
+      }
+      const vNodes = this.$slot.default
+      const clonedVNodes = vNodes.map(function (vnode) {
+        return cloneVNode(vnode)
+      })
+
+      return createElement('div', [
+        vNodes,
+        clonedVNodes
+      ])
+    }
+  })
+
+</script>
+// 为什么说是轻量级的JavaScript对象呢？ // 比如 document.getElementById(‘main’) 获取一个节点 // 你就会发现该节点下的定义的属性远比 vNode 要多得多
+
+render(h) {
+    return h('input', {
+        domProps: {
+            value: this.myBoundProperty
+        },
+        on: {
+            input: e => {
+                this.myBoundProperty = e.target.value
+            }
+        }
+    })
+}
+<template>
+    <input :value="myBoundProperty" @input="myBoundProperty = $event.target.value"/>
+</template>
+
+render(h) {
+    return h('div', {
+      attrs: {
+        // <div :id="myCustomId">
+        id: this.myCustomId
+      },
+
+      props: {
+        // <div :someProp="someonePutSomethingHere">
+        someProp: this.someonePutSomethingHere
+      },
+
+      domProps: {
+         // <div :value="somethingElse">
+        value: this.somethingElse
+      }
+    });
+}
+render(h) {
+    return h('div', {
+        // "class" is a reserved keyword in JS, so you have to quote it.
+        'class': {
+            myClass: true,
+            theirClass: false
+        },
+        style: {
+            backgroundColor: 'green'
+        }
+    });
+}
