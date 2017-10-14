@@ -44,19 +44,8 @@
               label: '三级 3-2-1',
             }]
           }]
-        }],
-        options: [
-          {
-            name: '操作一'
-          },
-          {
-            name: '操作二'
-          },
-          {
-            name: '操作三'
-          }
-        ]
-      };
+        }]
+      }
     },
     methods: {
       handleNodeClick(data) {
@@ -66,54 +55,20 @@
         e.preventDefault()
         e.stopPropagation()
       },
-      renderContent(h, {
-        node,
-        data,
-        store
-      }) {
-        return h(
-          'span', {
-            props: {
-              level: 1
-            },
-            class: 'el-tree-node_label'
-          }, [
-            h('span', data.label), [h('ElPopover', {
-              attrs: {
-                placement: 'bottom',
-                width: '100',
-                trigger: 'click'
-              }
-            }, [
-              h('span', {
-                slot: 'reference',
-                class: {
-                  option: true
-                },
-                on: {
-                  click: this.clickHandler
-                }
-              }, [h('span', {
-                class: {
-                  icon: true,
-                  more: true
-                }
-              }, [h('El-Button', {
-                attrs: {
-                  size: 'mini',
-                  type: 'primary',
-                  plain: true
-                }
-              }, '操作')])]),
-              h('ul', {
-                class: {
-                  options: true
-                }
-              }, this.options.map(option => h('li', option.name)
-              ))
-            ])]
-          ]
-        )
+      renderContent(h, { node, data, store }) {
+        return (<span class={{ 'el-tree-node-label': true }}>
+            <span>{node.label}</span>
+            <el-popover placememnt="bottom" width="100" trigger="click">
+              <span slot="reference" class="option" on-click={ ($event) => { this.clickHandler($event, data) }}>
+                <el-button class="icon more" size="mini" type="primary" plain={true}>操作</el-button>
+              </span>
+              <ul class="options">
+                <li>操作一</li>
+                <li>操作二</li>
+                <li>操作三</li>
+              </ul>
+            </el-popover>
+          </span>)
       }
     }
   }
@@ -128,9 +83,6 @@
   .el-popover {
     padding: 0;
   }
-  .el-popover ul {
-    padding: 10px 0;
-  }
 
   .el-popover ul li {
     list-style-type: none;
@@ -142,7 +94,6 @@
 
   .el-popover ul li:hover {
     background-color: #ebebeb;
-    color: #05bdbf;
   }
 
 </style>
