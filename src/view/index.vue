@@ -46,13 +46,6 @@
       <el-button type="primary" @click="changeDynamicArray" style="margin-top: 20px;">切换顺序</el-button>
     </div>
 
-    <div class="area clone-vnode">
-      <p>render函数克隆节点</p>
-      <cloneVnode>
-        <Tree></Tree>
-      </cloneVnode>
-    </div>
-
     <div class="area toggle-component">
       <p>component 元素和 is 属性切换显示的组件</p>
       <el-button type="primary" @click="toggle" style="margin-top: 20px;margin-bottom: 20px;">切换组件</el-button>
@@ -71,7 +64,6 @@
   import Tree from '@/components/Tree'
   import TreeJSX from '@/components/TreeJSX'
   import RenderSlot from '@/components/renderSlot'
-  import cloneVnode from '@/components/clonedVnode'
 
   export default {
     components: {
@@ -80,7 +72,6 @@
       Tree,
       TreeJSX,
       RenderSlot,
-      cloneVnode,
       first: {
         template: '<div>这里是子组件1</div>'
       },

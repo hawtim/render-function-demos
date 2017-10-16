@@ -66,11 +66,7 @@
         e.preventDefault()
         e.stopPropagation()
       },
-      renderContent(h, {
-        node,
-        data,
-        store
-      }) {
+      renderContent(h, { node, data, store }) {
         return h(
           'span', {
             props: {
@@ -93,18 +89,17 @@
                 on: {
                   click: this.clickHandler
                 }
-              }, [h('span', {
+              }, [h('El-Button', {
                 class: {
                   icon: true,
                   more: true
-                }
-              }, [h('El-Button', {
+                },
                 attrs: {
                   size: 'mini',
                   type: 'primary',
                   plain: true
                 }
-              }, '操作')])]),
+              }, '操作')]),
               h('ul', {
                 class: {
                   options: true

@@ -57,18 +57,27 @@
       },
       renderContent(h, { node, data, store }) {
         return (<span class={{ 'el-tree-node-label': true }}>
-            <span>{node.label}</span>
-            <el-popover placememnt="bottom" width="100" trigger="click">
-              <span slot="reference" class="option" on-click={ ($event) => { this.clickHandler($event, data) }}>
-                <el-button class="icon more" size="mini" type="primary" plain={true}>操作</el-button>
-              </span>
-              <ul class="options">
-                <li>操作一</li>
-                <li>操作二</li>
-                <li>操作三</li>
-              </ul>
-            </el-popover>
-          </span>)
+          <span>{node.label}</span>
+          <el-popover placememnt="bottom" width="100" trigger="click">
+            <span
+              slot="reference"
+              class="option"
+              on-click={ ($event) => { this.clickHandler($event, data) }}>
+              <el-button
+                class="icon more"
+                size="mini"
+                type="primary"
+                plain={true}>
+                操作
+              </el-button>
+            </span>
+            <ul class="options">
+              <li>操作一</li>
+              <li>操作二</li>
+              <li>操作三</li>
+            </ul>
+          </el-popover>
+        </span>)
       }
     }
   }
